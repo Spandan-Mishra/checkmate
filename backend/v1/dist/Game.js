@@ -10,7 +10,7 @@ class Game {
         this.board = new chess_js_1.Chess();
         this.startTime = new Date();
         this.moveCount = 0;
-        [this.player1, this.player2].map(player => player.emit(JSON.stringify({
+        [this.player1, this.player2].map(player => player.send(JSON.stringify({
             type: messages_1.INIT_GAME,
             payload: {
                 color: player === this.player1 ? "white" : "black"
@@ -19,6 +19,7 @@ class Game {
     }
     makeMove(socket, move) {
         if ((this.moveCount % 2 === 0 && socket !== this.player1) || (this.moveCount % 2 === 1 && socket !== this.player2)) {
+            console.log("early return");
             return;
         }
         try {
@@ -36,14 +37,14 @@ class Game {
             })));
             return;
         }
-        if (this.board.moves.length % 2 === 0) {
-            this.player2.emit(JSON.stringify({
+        if (this.moveCount % 2 === 0) {
+            this.player2.send(JSON.stringify({
                 type: messages_1.MOVE,
                 payload: move
             }));
         }
-        if (this.board.moves.length % 2 === 1) {
-            this.player1.emit(JSON.stringify({
+        if (this.moveCount % 2 === 1) {
+            this.player1.send(JSON.stringify({
                 type: messages_1.MOVE,
                 payload: move
             }));

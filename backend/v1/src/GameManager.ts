@@ -40,7 +40,7 @@ export class GameManager {
       if (message.type === MOVE) {
         const game = this.games.filter(game => game.player1 === socket || game.player2 === socket)[0];
         if (game) {
-          game.makeMove(socket, message.move);
+          game.makeMove(socket, message.payload.move);
         }
       }
 

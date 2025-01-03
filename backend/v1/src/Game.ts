@@ -15,7 +15,7 @@ export class Game {
     this.board = new Chess();
     this.startTime = new Date();
     this.moveCount = 0;
-    [this.player1, this.player2].map(player => player.emit(JSON.stringify({
+    [this.player1, this.player2].map(player => player.send(JSON.stringify({
       type: INIT_GAME,
       payload: {
         color: player === this.player1 ? "white" : "black"
@@ -47,15 +47,15 @@ export class Game {
       return;
     }
 
-    if (this.board.moves.length % 2 === 0) {
-      this.player2.emit(JSON.stringify({
+    if (this.moveCount % 2 === 0) {
+      this.player2.send(JSON.stringify({
         type: MOVE,
         payload: move
       }))
     }
 
-    if (this.board.moves.length % 2 === 1) {
-      this.player1.emit(JSON.stringify({
+    if (this.moveCount % 2 === 1) {
+      this.player1.send(JSON.stringify({
         type: MOVE,
         payload: move
       }))

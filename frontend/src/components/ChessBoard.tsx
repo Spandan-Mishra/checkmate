@@ -40,6 +40,7 @@ export const ChessBoard = ({ chess, socket, setBoard, board }: {
                   from,
                   to: squareRepresentation
                 })
+                setBoard(chess.board());
                 console.log({
                   from,
                   to: squareRepresentation

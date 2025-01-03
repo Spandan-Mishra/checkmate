@@ -19,7 +19,7 @@ export const Game = () => {
     }
 
     socket.onmessage = (event) => {
-      const message = JSON.stringify(event.data);
+      const message = JSON.parse(event.data);
       console.log(message);
       switch (message.type) {
         case INIT_GAME:
@@ -27,6 +27,9 @@ export const Game = () => {
           console.log("Game initialized");
           break;
         case MOVE:
+          const move = message.payload;
+          chess.move(move);
+          setBoard(chess.board());
           console.log("Move made");
           break;
         case GAME_OVER:
